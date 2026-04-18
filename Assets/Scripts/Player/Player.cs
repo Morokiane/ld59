@@ -25,11 +25,11 @@ namespace Player {
             if (context.started) {
                 switch (action) {
                     case 1:
-                        Utils.Console._instance.GetColors();
-                        Debug.Log("interact");
+                        Objects.Console._instance.GetColors();
                     break;
 
                     case 2:
+
                     break;
 
                     case 3:
