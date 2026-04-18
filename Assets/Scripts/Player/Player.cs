@@ -1,6 +1,6 @@
 using Controllers;
 using UnityEngine;
-// using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
  
 namespace Player {
     public class Player : Singleton<Player> {
@@ -8,7 +8,8 @@ namespace Player {
         // public GameObject interactionIcon;
         
         public bool canMove = true;
-        // public uint action;
+        public int action;
+        public bool canInteract;
         // private PlayerMovement playerMovement;
 
         [HideInInspector] public SpriteRenderer sprite;
@@ -20,45 +21,22 @@ namespace Player {
             // inventory.SetActive(false);
         }
 
-        /* public void OnInteract(InputAction.CallbackContext context) {
-            if (context.performed) {
+        public void OnInteract(InputAction.CallbackContext context) {
+            if (context.started) {
                 switch (action) {
                     case 1:
-                        if (LevelController._instance.menuOpen && LevelController._instance.canCraft) {
-                            // Close current menu
-                            if (LevelController._instance.currentCraftingStation != null && !LevelController._instance.inTutorial) {
-                                LevelController._instance.currentCraftingStation.CloseMenu();
-                                LevelController._instance.menuOpen = false;
-                                canMove = true;
-                            }
-                        } else {
-                            // Open menu
-                            if (LevelController._instance.currentCraftingStation != null) {
-                                LevelController._instance.currentCraftingStation.Craft();
-                                LevelController._instance.menuOpen = true;
-                                canMove = false;
-                            }
-                        }
+                        Utils.Console._instance.GetColors();
+                        Debug.Log("interact");
                     break;
 
                     case 2:
-                        if (!LevelController._instance.boulangerieOpen && !LevelController._instance.goHome) {
-                            LevelController._instance.boulangerieOpen = true;
-                            LevelController._instance.OpenBoulangerie(LevelController._instance.boulangerieOpen);
-                        } else if (LevelController._instance.goHome) {
-                            LevelController._instance.boulangerieOpen = false;
-                            LevelController._instance.CloseBoulangerie();
-                        }
                     break;
 
                     case 3:
-                        // if (LevelController._instance.ActiveNpcAtCounter == null) return; 
-                        if (LevelController._instance.canCompleteSale)
-                            LevelController._instance.CompleteSale();
                     break;
                 }
             }
-        } */
+        }
 
         /* public void CancelMenu(InputAction.CallbackContext context) {
             if (context.performed && LevelController._instance.currentCraftingStation && LevelController._instance.menuOpen) {
