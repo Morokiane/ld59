@@ -41,6 +41,7 @@ namespace Objects {
             }
 
             LevelController._instance.TurnOnLevelLights();
+            Player.Player._instance.playerLight.intensity = 1f;
 
             StartCoroutine(TurnOffLights());
             LevelController._instance.startTimer = true;

@@ -6,24 +6,19 @@ namespace Utils {
         private Light2D light2D;
 
         [SerializeField] private float minRadius = 1f;
-        [SerializeField] private float maxRadius = 500f;
-        [SerializeField] private float pulseSpeed = 1f;
-        [SerializeField] private float radiusReduction = 10f;
+        [SerializeField] private float maxRadius = 20f;
+        [SerializeField] private float pulseSpeed = 10f;
+        [SerializeField] private float radiusReduction = 1f;
 
-        private float currentMaxRadius;
+        // private float currentMaxRadius;
         private float randomOffset;
 
         private void Awake() {
             light2D = GetComponent<Light2D>();
         }
 
-        /* private void Start() {
-            currentMaxRadius = maxRadius;
-            randomOffset = Random.Range(0f, Mathf.PI * 2f);
-        } */
-
         private void OnEnable() {
-            currentMaxRadius = maxRadius;
+            Controllers.LevelController._instance.pulseRadius = maxRadius;
             light2D.pointLightOuterRadius = Random.Range(minRadius, maxRadius);
             // randomOffset = Random.Range(0f, Mathf.PI * 2f);
         }
@@ -32,8 +27,8 @@ namespace Utils {
             if (light2D.pointLightOuterRadius > minRadius) {
                 light2D.pointLightOuterRadius = Mathf.MoveTowards(light2D.pointLightOuterRadius, minRadius, pulseSpeed * Time.deltaTime);
             } else {
-                currentMaxRadius = Mathf.Max(minRadius, currentMaxRadius - radiusReduction);
-                light2D.pointLightOuterRadius = currentMaxRadius;
+                Controllers.LevelController._instance.pulseRadius = Mathf.Max(minRadius, Controllers.LevelController._instance.pulseRadius - radiusReduction);
+                light2D.pointLightOuterRadius = Controllers.LevelController._instance.pulseRadius;
             }
         }
     }

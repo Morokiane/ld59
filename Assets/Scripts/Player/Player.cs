@@ -1,6 +1,7 @@
 using Controllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
  
 namespace Player {
     public class Player : Singleton<Player> {
@@ -10,6 +11,7 @@ namespace Player {
         public bool canMove = true;
         public int action;
         public bool canInteract;
+        public Light2D playerLight;
         // private PlayerMovement playerMovement;
 
         [HideInInspector] public SpriteRenderer sprite;
@@ -21,6 +23,12 @@ namespace Player {
             // inventory.SetActive(false);
         }
 
+        private void Update() {
+            if (LevelController._instance.timer <= 50) {
+                playerLight.intensity = Mathf.MoveTowards(playerLight.intensity, 0, 0.1f * Time.deltaTime);
+            }
+        }
+
         public void OnInteract(InputAction.CallbackContext context) {
             if (context.started) {
                 switch (action) {
@@ -29,7 +37,6 @@ namespace Player {
                     break;
 
                     case 2:
-
                     break;
 
                     case 3:

@@ -21,8 +21,11 @@ namespace Player {
         private void Update() {
             HandleAnimation();
         }
+
         private void FixedUpdate() {
-            rb.linearVelocity = moveInput * moveSpeed;
+            if (Player._instance.canMove) {
+                rb.linearVelocity = moveInput * moveSpeed;
+            }
         }
 
         public void Move(InputAction.CallbackContext context) {

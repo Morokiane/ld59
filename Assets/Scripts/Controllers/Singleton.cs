@@ -12,11 +12,7 @@ namespace Controllers {
                 instance = (T)this;
             }
             
-            DontDestroyOnLoad(transform.root.gameObject);
+            // DontDestroyOnLoad(transform.root.gameObject);
         }
-
-        // protected virtual void Start() {
-            
-        // }
     }
 }

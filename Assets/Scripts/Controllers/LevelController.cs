@@ -7,6 +7,7 @@ namespace Controllers {
         [SerializeField] private Light2D[] lights;
         [SerializeField] private GameObject levelLights;
         [SerializeField] private Light2D globalLight;
+        [SerializeField] private GameObject boosts;
 
         public int[] sequence { get; private set; }
         public int[] lampColors { get; private set; }
@@ -14,6 +15,7 @@ namespace Controllers {
         public int currentStep = 0;
         public float timer = 1f;
         public bool startTimer;
+        public float pulseRadius;
 
         private void Start() {
             lampColors = RandomSequence();
@@ -35,7 +37,8 @@ namespace Controllers {
                 if (timer > 0) {
                     timer -= Time.deltaTime;
                 } else {
-                    timer = 0;
+                    Player.Player._instance.canMove = false;
+                    HUDController._instance.GameOver();
                 }
             }
         }
@@ -53,6 +56,7 @@ namespace Controllers {
 
         public void TurnOnLevelLights() {
             levelLights.SetActive(true);
+            boosts.SetActive(true);
             globalLight.intensity = 0;
         }
 

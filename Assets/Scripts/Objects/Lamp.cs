@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Controllers;
+
 namespace Objects {
     public class Lamp : MonoBehaviour {
         [SerializeField] private Light2D lamp;
@@ -14,6 +16,9 @@ namespace Objects {
             if (other.CompareTag("Player")) {
                 // Debug.Log($"Player touched lamp with colorIndex {colorIndex}");
                 if (Controllers.LevelController._instance.Deactivate(colorIndex)) {
+                    LevelController._instance.pulseRadius += 10;
+                    LevelController._instance.timer += 10;
+
                     lamp.intensity = 0;
                 }
             }
