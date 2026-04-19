@@ -18,12 +18,14 @@ namespace Objects {
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
                 // Debug.Log($"Player touched lamp with colorIndex {colorIndex}");
-                if (LevelController._instance.Deactivate(colorIndex)) {
-                    LevelController._instance.pulseRadius += 10;
-                    LevelController._instance.timer += 10;
-                    audioSource.PlayOneShot(audioClip, 0.5f);
-                
-                    lamp.intensity = 0;
+                if (!LevelController._instance.allLampsOff) {
+                    if (LevelController._instance.Deactivate(colorIndex)) {
+                        LevelController._instance.pulseRadius += 10;
+                        LevelController._instance.timer += 10;
+                        audioSource.PlayOneShot(audioClip, 0.5f);
+                    
+                        lamp.intensity = 0;
+                    }
                 }
             }
         }

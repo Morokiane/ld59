@@ -48,7 +48,7 @@ namespace Controllers {
         int[] RandomSequence() {
             int[] numbers = { 0, 1, 2, 3 };
             for (int i = numbers.Length - 1; i > 0; i--) {
-                int randomIndex = UnityEngine.Random.Range(0, i + 1);
+                int randomIndex = Random.Range(0, i + 1);
                 int temp = numbers[i];
                 numbers[i] = numbers[randomIndex];
                 numbers[randomIndex] = temp;
@@ -71,7 +71,6 @@ namespace Controllers {
                     // HUDController._instance.PostProcess();
                     allLampsOff = true;
                 }
-
                 return true;
             }
             return false;

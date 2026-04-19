@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Objects {
     public class Console : Singleton<Console> {
         [SerializeField] private GameObject lights;
+        [SerializeField] private GameObject removedWalls;
         [SerializeField] private SpriteRenderer[] sprite;
         [SerializeField] private AudioClip audioClip;
         public CircleCollider2D circleCollider2D;
@@ -21,7 +22,6 @@ namespace Objects {
             if (other.CompareTag("Player")) {
                 if (!LevelController._instance.allLampsOff) {
                     Player.Player._instance.action = 1;
-                    audioSource.PlayOneShot(audioClip, 0.5f);
                     // Player.Player._instance.canInteract = true;
                 } else if (LevelController._instance.allLampsOff) {
                     Player.Player._instance.action = 2;
@@ -49,7 +49,9 @@ namespace Objects {
             }
 
             LevelController._instance.TurnOnLevelLights();
+            audioSource.PlayOneShot(audioClip, 1.0f);
             Player.Player._instance.playerLight.intensity = 1f;
+            removedWalls.SetActive(false);
 
             StartCoroutine(TurnOffLights());
             LevelController._instance.startTimer = true;

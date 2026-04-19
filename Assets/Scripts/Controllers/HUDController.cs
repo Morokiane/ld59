@@ -4,11 +4,11 @@ using System;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 namespace Controllers {
     public class HUDController : Singleton<HUDController> {
         [SerializeField] private TextMeshProUGUI timerTxt;
+        [SerializeField] private GameObject tutWindow;
         [SerializeField] private GameObject menu;
         [SerializeField] private GameObject gameOver;
         [SerializeField] private GameObject beatGame;
@@ -23,6 +23,7 @@ namespace Controllers {
         private void Start() {
             timeSpan = TimeSpan.FromSeconds(LevelController._instance.timer);
             timerTxt.text = timeSpan.ToString(@"m\:ss");
+            tutWindow.SetActive(true);
 
             postProcessingVolume.profile = Instantiate(postProcessingVolume.profile);
 
@@ -58,11 +59,22 @@ namespace Controllers {
             }
         }
 
+        public void CloseWindow() {
+            Time.timeScale = 1;
+            Player.Player._instance.canMove = true;
+            tutWindow.SetActive(false);
+        }
+
         public void GameOver() {
             gameOver.SetActive(true);
         }
 
+        public void Return() {
+            SceneManager.LoadScene("Scenes/Title");    
+        }
+
         public void BeatIt() {
+            Time.timeScale = 0;
             beatGame.SetActive(true);
         }
 
