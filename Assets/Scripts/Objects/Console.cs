@@ -1,18 +1,27 @@
 using System.Collections;
 using Controllers;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace Objects {
     public class Console : Singleton<Console> {
         [SerializeField] private GameObject lights;
         [SerializeField] private SpriteRenderer[] sprite;
+        [SerializeField] private AudioClip audioClip;
         public CircleCollider2D circleCollider2D;
+
+        private AudioSource audioSource;
+
+        protected override void Awake() {
+            base.Awake();
+
+            audioSource = GetComponent<AudioSource>();
+        }
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
                 if (!LevelController._instance.allLampsOff) {
                     Player.Player._instance.action = 1;
+                    audioSource.PlayOneShot(audioClip, 0.5f);
                     // Player.Player._instance.canInteract = true;
                 } else if (LevelController._instance.allLampsOff) {
                     Player.Player._instance.action = 2;

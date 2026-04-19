@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -69,6 +68,7 @@ namespace Controllers {
 
                 if (currentStep == 4) {
                     Objects.Console._instance.circleCollider2D.enabled = true;
+                    // HUDController._instance.PostProcess();
                     allLampsOff = true;
                 }
 

@@ -4,13 +4,17 @@ using System;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace Controllers {
     public class HUDController : Singleton<HUDController> {
         [SerializeField] private TextMeshProUGUI timerTxt;
+        [SerializeField] private GameObject menu;
         [SerializeField] private GameObject gameOver;
         [SerializeField] private GameObject beatGame;
-        [SerializeField] private VolumeProfile postProcessingVolume;
+        [SerializeField] private Volume postProcessingVolume;
+
+        public bool menuOpen;
         
         private ChromaticAberration chromaticAberration;
         private FilmGrain filmGrain;
@@ -19,21 +23,38 @@ namespace Controllers {
         private void Start() {
             timeSpan = TimeSpan.FromSeconds(LevelController._instance.timer);
             timerTxt.text = timeSpan.ToString(@"m\:ss");
+
+            postProcessingVolume.profile = Instantiate(postProcessingVolume.profile);
+
+            if (postProcessingVolume.profile.TryGet(out chromaticAberration)) {
+                chromaticAberration.intensity.Override(0f);
+            }
+
+            if (postProcessingVolume.profile.TryGet(out filmGrain)) {
+                // filmGrain.intensity.Override(0f);
+                filmGrain.intensity.value = 0f;
+            }
         }
 
         private void Update() {
             timeSpan = TimeSpan.FromSeconds(LevelController._instance.timer);
             timerTxt.text = timeSpan.ToString(@"m\:ss");
+
+            if (LevelController._instance.timer < 30 && filmGrain.intensity.value != 1) {
+                filmGrain.intensity.value = Mathf.MoveTowards(filmGrain.intensity.value, 1f, 0.05f * Time.deltaTime);
+                chromaticAberration.intensity.value = Mathf.MoveTowards(chromaticAberration.intensity.value, 1f, 0.05f * Time.deltaTime);
+            }
         }
 
-        public void PostProcess() {
-            if (postProcessingVolume.TryGet(out chromaticAberration)) {
-                // Set the chromatic aberration intensity using the .value field
-                chromaticAberration.intensity.value = 0;  // Set to desired value between 0 and 1
-            }
-
-            if (postProcessingVolume.TryGet(out filmGrain)) {
-                filmGrain.intensity.value = 1;
+        public void OpenMenu(bool state) {
+            if (state) {
+                Time.timeScale = 0;
+                menu.SetActive(state);
+                Player.Player._instance.canMove = false;
+            } else if (!state) {
+                Time.timeScale = 1;
+                menu.SetActive(state);
+                Player.Player._instance.canMove = true;
             }
         }
 
@@ -54,8 +75,12 @@ namespace Controllers {
         }
 
         private void OnDisable() {
-            if (postProcessingVolume.TryGet(out filmGrain)) {
+            if (postProcessingVolume.profile.TryGet(out filmGrain)) {
                 filmGrain.intensity.value = 0;
+            }
+
+            if (postProcessingVolume.profile.TryGet(out chromaticAberration)) {
+                chromaticAberration.intensity.value = 0;
             }
         }
     }

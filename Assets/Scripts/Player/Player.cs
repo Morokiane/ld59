@@ -1,5 +1,6 @@
 using Controllers;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
  
@@ -10,21 +11,16 @@ namespace Player {
         
         public bool canMove = true;
         public int action;
-        // public bool canInteract;
         public Light2D playerLight;
-        // private PlayerMovement playerMovement;
 
         [HideInInspector] public SpriteRenderer sprite;
 
         private void Start() {
-            // playerMovement = GetComponent<PlayerMovement>();
             sprite = GetComponent<SpriteRenderer>();
-            
-            // inventory.SetActive(false);
         }
 
         private void Update() {
-            if (LevelController._instance.timer <= 50) {
+            if (LevelController._instance.timer <= 15) {
                 playerLight.intensity = Mathf.MoveTowards(playerLight.intensity, 0, 0.1f * Time.deltaTime);
             }
         }
@@ -41,10 +37,13 @@ namespace Player {
                         canMove = false;
                         HUDController._instance.BeatIt();
                     break;
-
-                    case 3:
-                    break;
                 }
+            }
+        }
+
+        public void OpenMenu(InputAction.CallbackContext context) {
+            if (context.started) {
+                HUDController._instance.OpenMenu(true);
             }
         }
 
