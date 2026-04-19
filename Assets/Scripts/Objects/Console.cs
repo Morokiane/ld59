@@ -7,24 +7,23 @@ namespace Objects {
     public class Console : Singleton<Console> {
         [SerializeField] private GameObject lights;
         [SerializeField] private SpriteRenderer[] sprite;
-        private CircleCollider2D circleCollider2D;
-
-        protected override void Awake() {
-            base.Awake();
-            circleCollider2D = GetComponent<CircleCollider2D>();
-        }
+        public CircleCollider2D circleCollider2D;
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
-                Player.Player._instance.action = 1;
-                Player.Player._instance.canInteract = true;
+                if (!LevelController._instance.allLampsOff) {
+                    Player.Player._instance.action = 1;
+                    // Player.Player._instance.canInteract = true;
+                } else if (LevelController._instance.allLampsOff) {
+                    Player.Player._instance.action = 2;
+                }
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Player")) {
                 Player.Player._instance.action = 0;
-                Player.Player._instance.canInteract = false;
+                // Player.Player._instance.canInteract = false;
             }
         }
 

@@ -15,7 +15,7 @@ namespace Objects {
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
                 // Debug.Log($"Player touched lamp with colorIndex {colorIndex}");
-                if (Controllers.LevelController._instance.Deactivate(colorIndex)) {
+                if (LevelController._instance.Deactivate(colorIndex)) {
                     LevelController._instance.pulseRadius += 10;
                     LevelController._instance.timer += 10;
 

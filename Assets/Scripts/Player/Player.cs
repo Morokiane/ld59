@@ -10,7 +10,7 @@ namespace Player {
         
         public bool canMove = true;
         public int action;
-        public bool canInteract;
+        // public bool canInteract;
         public Light2D playerLight;
         // private PlayerMovement playerMovement;
 
@@ -34,9 +34,12 @@ namespace Player {
                 switch (action) {
                     case 1:
                         Objects.Console._instance.GetColors();
+                        Objects.Console._instance.circleCollider2D.enabled = false;
                     break;
 
                     case 2:
+                        canMove = false;
+                        HUDController._instance.BeatIt();
                     break;
 
                     case 3:

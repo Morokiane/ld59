@@ -9,6 +9,7 @@ namespace Controllers {
     public class HUDController : Singleton<HUDController> {
         [SerializeField] private TextMeshProUGUI timerTxt;
         [SerializeField] private GameObject gameOver;
+        [SerializeField] private GameObject beatGame;
         [SerializeField] private VolumeProfile postProcessingVolume;
         
         private ChromaticAberration chromaticAberration;
@@ -18,7 +19,6 @@ namespace Controllers {
         private void Start() {
             timeSpan = TimeSpan.FromSeconds(LevelController._instance.timer);
             timerTxt.text = timeSpan.ToString(@"m\:ss");
-
         }
 
         private void Update() {
@@ -39,6 +39,14 @@ namespace Controllers {
 
         public void GameOver() {
             gameOver.SetActive(true);
+        }
+
+        public void BeatIt() {
+            beatGame.SetActive(true);
+        }
+
+        public void Exit() {
+            Application.Quit();
         }
 
         public void Restart() {
